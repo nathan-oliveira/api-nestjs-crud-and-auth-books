@@ -1,0 +1,13 @@
+{
+  "type": "mysql",
+  "host": "localhost",
+  "port": 3307,
+  "username": "root_user",
+  "password": "toor",
+  "database": "db_books",
+  "entities": ["dist/**/*.model.js"],
+  "migrations": ["dist/migrations/*.js"],
+  "cli": {
+    "migrationsDir": "src/migrations"
+  }
+}

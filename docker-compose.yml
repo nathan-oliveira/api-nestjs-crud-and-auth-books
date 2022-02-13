@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8
+    container_name: db-books
+    restart: always
+    env_file: .env
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${TYPEORM_PASSWORD}
+      MYSQL_DATABASE: ${TYPEORM_DATABASE}
+      MYSQL_USER: ${TYPEORM_USERNAME}
+      MYSQL_PASSWORD: ${TYPEORM_ROOT_PASSWORD}
+    ports:
+      - ${TYPEORM_PORT}:${MYSQLDB_DOCKER_PORT}
+    
