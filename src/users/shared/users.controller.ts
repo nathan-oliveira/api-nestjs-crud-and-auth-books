@@ -13,36 +13,39 @@ import {
 } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { UsersService } from './users.service';
-import { CreateUserDto, ReadUserDto, UpdateUserDto } from '../dto';
+import { CreateUserDto, ReadUserDto, UpdateUserDto, UserResponse } from '../dto';
 import { JwtAuthGuard } from 'src/auth/shared/jwt-auth.guard';
+import { ApiNoContentResponse, ApiOkResponse } from '@nestjs/swagger';
 
+@UseGuards(JwtAuthGuard)
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
   constructor(private readonly service: UsersService) {}
 
   @Post()
+  @ApiOkResponse({ type: UserResponse })
   async create(@Body() createUserDto: CreateUserDto): Promise<ReadUserDto> {
     const user = await this.service.create(createUserDto);
     return plainToClass(ReadUserDto, user);
   }
   
-  @UseGuards(JwtAuthGuard)
   @Get()
+  @ApiOkResponse({ type: [UserResponse] })
   async getAll(): Promise<ReadUserDto[]> {
     const users = await this.service.findAll();
     return plainToClass(ReadUserDto, users);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get(':id')
+  @ApiOkResponse({ type: UserResponse })
   async getById(@Param('id') id: string): Promise<ReadUserDto> {
     const user = await this.service.findOne(id);
     return plainToClass(ReadUserDto, user);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Put(':id')
+  @ApiOkResponse({ type: UserResponse })
   async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
@@ -51,17 +54,16 @@ export class UsersController {
     return plainToClass(ReadUserDto, user);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Delete(':id')
-  async remove(@Param('id') id: string): Promise<ReadUserDto> {
-    const user = await this.service.remove(id);
-    return plainToClass(ReadUserDto, user);
-  }
-
-  @UseGuards(JwtAuthGuard)
   @Patch(':id')
+  @ApiOkResponse({ type: UserResponse })
   async disableOrEnable(@Param('id') id: string) {
     const user = await this.service.disableOrEnable(id);
     return plainToClass(ReadUserDto, user);
+  }
+
+  @Delete(':id')
+  @ApiNoContentResponse()
+  async remove(@Param('id') id: string): Promise<void> {
+    return await this.service.remove(id);
   }
 }

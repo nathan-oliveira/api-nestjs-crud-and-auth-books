@@ -13,7 +13,8 @@ import { Request } from 'express';
 import { plainToClass } from 'class-transformer';
 import { UsersService } from 'src/users/shared/users.service';
 import { JwtAuthGuard } from 'src/auth/shared/jwt-auth.guard';
-import { ReadProfileDto, UpdateProfileDto } from '../dto';
+import { ProfileResponseDto, ReadProfileDto, UpdateProfileDto } from '../dto';
+import { ApiOkResponse } from '@nestjs/swagger';
 
 @UseGuards(JwtAuthGuard)
 @Controller('profile')
@@ -22,6 +23,7 @@ export class ProfileController {
   constructor(private readonly service: UsersService) {}
 
   @Get()
+  @ApiOkResponse({ type: ProfileResponseDto })
   async profile(@Req() req: Request): Promise<ReadProfileDto> {
     const { id } = <any>req.user;
     const user = await this.service.findOne(id)
@@ -29,6 +31,7 @@ export class ProfileController {
   }
 
   @Put()
+  @ApiOkResponse({ type: ProfileResponseDto })
   async update(
     @Req() req: Request,
     @Body() updateUserDto: UpdateProfileDto,
@@ -39,7 +42,8 @@ export class ProfileController {
   }
 
   @Patch()
-  async disableOrEnable(@Req() req: Request) {
+  @ApiOkResponse({ type: ProfileResponseDto })
+  async disableAccount(@Req() req: Request) {
     const { id } = <any>req.user;
     const user = await this.service.disableOrEnable(id);
     return plainToClass(ReadProfileDto, user);
