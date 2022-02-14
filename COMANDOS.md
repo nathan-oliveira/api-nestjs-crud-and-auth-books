@@ -24,7 +24,6 @@ nest g class courses/dto/create-course.dto --no-spec
 ## Container Docker Create
 docker run --name postgres -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
 
-
 ## TypeORM Migration Create
 npm run typeorm migration:create -n CourseRefactoring
 
