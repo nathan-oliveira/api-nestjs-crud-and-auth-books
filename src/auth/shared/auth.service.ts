@@ -25,8 +25,8 @@ export class AuthService {
     const passwordValid = await this.compareHash(password, user.password);
 
     if (user && passwordValid && user.active) {
-      const { id, name, email, active } = user;
-      return { id, name, email, active };
+      const { id, name, email, active, level } = user;
+      return { id, name, email, active, level };
     }
 
     return false;
@@ -37,12 +37,9 @@ export class AuthService {
     if (!user.active) return true; 
   }
 
-  async login({ email, id, active }: LoginUserDTO) {
-    const payload = { email: email, sub: id, active };
-    
-    return {
-      access_token: this.jwtService.sign(payload),
-    }
+  async login({ email, id, active, level }: LoginUserDTO) {
+    const payload = { email: email, sub: id, active, level };
+    return { access_token: this.jwtService.sign(payload) }
   }
 
   async create(createAuthDto: CreateAuthDto) {

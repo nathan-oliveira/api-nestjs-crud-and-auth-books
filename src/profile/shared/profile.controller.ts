@@ -12,7 +12,7 @@ import {
 import { Request } from 'express';
 import { plainToClass } from 'class-transformer';
 import { UsersService } from 'src/users/shared/users.service';
-import { JwtAuthGuard } from 'src/auth/shared/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/auth/shared/jwt/jwt-auth.guard';
 import { ProfileResponseDto, ReadProfileDto, UpdateProfileDto } from '../dto';
 import { ApiOkResponse } from '@nestjs/swagger';
 

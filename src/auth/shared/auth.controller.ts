@@ -2,15 +2,13 @@ import { Controller, Post, UseGuards, Request, Body } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './local-auth.guard';
+import { LocalAuthGuard } from './local/local-auth.guard';
 import { CreateAuthDto } from '../dto/create-auth.dto'
 import { ReadAuthDto } from '../dto/read-auth.dto';
 
 @Controller()
 export class AuthController {
-  constructor(
-    private authService: AuthService,
-  ) {}
+  constructor(private authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')

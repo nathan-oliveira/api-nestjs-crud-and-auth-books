@@ -12,12 +12,18 @@ import {
   Patch,
 } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
-import { UsersService } from './users.service';
-import { CreateUserDto, ReadUserDto, UpdateUserDto, UserResponse } from '../dto';
-import { JwtAuthGuard } from 'src/auth/shared/jwt-auth.guard';
 import { ApiNoContentResponse, ApiOkResponse } from '@nestjs/swagger';
 
-@UseGuards(JwtAuthGuard)
+import { UsersService } from './users.service';
+import { CreateUserDto, ReadUserDto, UpdateUserDto, UserResponse } from '../dto';
+import { JwtAuthGuard } from 'src/auth/shared/jwt/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/shared/roles/roles.guard';
+import { Role } from 'src/auth/enums/role.enum';
+import { Roles } from 'src/auth/shared/roles/roles.decorator';
+
+
+@Roles(Role.USER)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {

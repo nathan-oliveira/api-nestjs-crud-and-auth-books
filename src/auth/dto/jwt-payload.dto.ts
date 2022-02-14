@@ -3,4 +3,5 @@ export interface JwtPayloadDTO {
   sub: string;
   email: string; 
   active: boolean;
+  level: number;
 }
