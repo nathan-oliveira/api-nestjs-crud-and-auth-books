@@ -11,10 +11,11 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { plainToClass } from 'class-transformer';
+import { ApiOkResponse } from '@nestjs/swagger';
+
 import { UsersService } from 'src/users/shared/users.service';
 import { JwtAuthGuard } from 'src/auth/shared/jwt/jwt-auth.guard';
 import { ProfileResponseDto, ReadProfileDto, UpdateProfileDto } from '../dto';
-import { ApiOkResponse } from '@nestjs/swagger';
 
 @UseGuards(JwtAuthGuard)
 @Controller('profile')

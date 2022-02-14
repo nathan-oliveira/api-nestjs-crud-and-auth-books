@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { ROLES_KEY } from './roles.decorator';
 import { Role } from 'src/auth/enums/role.enum';
-import { ReadAuthDto } from 'src/auth/dto/read-auth.dto';
+import { ReadAuthDto } from 'src/auth/dto';
 
 @Injectable()
 export class RolesGuard implements CanActivate {

@@ -21,7 +21,6 @@ import { RolesGuard } from 'src/auth/shared/roles/roles.guard';
 import { Role } from 'src/auth/enums/role.enum';
 import { Roles } from 'src/auth/shared/roles/roles.decorator';
 
-
 @Roles(Role.USER)
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('users')
