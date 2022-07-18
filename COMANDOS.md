@@ -54,3 +54,10 @@ npm install --save-dev @types/passport-jwt
 docker pull mysql
 docker-compose -f "docker-compose.yml" up -d --build
 docker-compose -f "docker-compose.yml" down
+
+
+
+# Sobre páginação:
+https://github.com/nestjsx/nestjs-typeorm-paginate
+https://stackoverflow.com/questions/53922503/how-to-implement-pagination-in-nestjs-with-typeorm
+https://www.wake-up-neo.com/pt/typescript/como-implementar-paginacao-em-nestjs-com-typeorm/807565287/
