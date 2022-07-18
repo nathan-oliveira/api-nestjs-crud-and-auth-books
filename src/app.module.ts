@@ -7,24 +7,26 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
-import { Users } from './users/model/users.model';
+
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      envFilePath: ['.env']
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.TYPEORM_HOST,
-      port: parseInt(process.env.TYPEORM_PORT),
+      port: Number(process.env.TYPEORM_PORT),
       username: process.env.TYPEORM_USERNAME,
       password: process.env.TYPEORM_PASSWORD,
       database: process.env.TYPEORM_DATABASE,
-      entities: [Users],
+      synchronize: false,
+      entities: [`${__dirname}/**/*.model{.ts,.js}`],
     }),
-    TypeOrmModule.forFeature([Users]),
     UsersModule,
     AuthModule,
-    ProfileModule, 
+    ProfileModule,
   ],
   controllers: [AppController],
   providers: [AppService],

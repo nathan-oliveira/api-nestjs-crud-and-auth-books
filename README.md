@@ -3,6 +3,10 @@ docker pull mysql
 docker-compose -f "docker-compose.yml" up -d --build
 docker-compose -f "docker-compose.yml" down
 
+docker container ls -a --filter status=exited --filter status=created
+docker stop f16c33c8feb6
+docker rm f16c33c8feb6
+
 ## Dependências
 npm i --save class-transformer class-validator typeorm mysql
 npm i --save @nestjs/config 
@@ -19,3 +23,6 @@ npm install --save-dev @types/passport-jwt
 
 ## Package.json (scripts)
 "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
+
+yarn typeorm migration:create -n CreateUsers
+yarn typeorm migration:run
