@@ -15,7 +15,12 @@ import { plainToClass } from 'class-transformer';
 import { ApiNoContentResponse, ApiOkResponse } from '@nestjs/swagger';
 
 import { UsersService } from './users.service';
-import { CreateUserDto, ReadUserDto, UpdateUserDto, UserResponse } from '../dto';
+import {
+  CreateUserDto,
+  ReadUserDto,
+  UpdateUserDto,
+  UserResponse,
+} from '../dto';
 import { JwtAuthGuard } from 'src/auth/shared/jwt/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/shared/roles/roles.guard';
 import { Role } from 'src/auth/enums/role.enum';
@@ -34,7 +39,7 @@ export class UsersController {
     const user = await this.service.create(createUserDto);
     return plainToClass(ReadUserDto, user);
   }
-  
+
   @Get()
   @ApiOkResponse({ type: [UserResponse] })
   async getAll(): Promise<ReadUserDto[]> {

@@ -8,7 +8,10 @@ export class EntityNotFoundExceptionFilter implements ExceptionFilter {
     const res = ctx.getResponse<Response>();
 
     const statusCode = exception.status ?? HttpStatus.NOT_FOUND;
-    const message = exception.response instanceof Object ? exception.response.message : [exception.message];
+    const message =
+      exception.response instanceof Object
+        ? exception.response.message
+        : [exception.message];
 
     return res.status(statusCode).json({ statusCode, message });
   }

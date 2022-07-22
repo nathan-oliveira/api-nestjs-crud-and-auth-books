@@ -4,39 +4,39 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  Column
-} from 'typeorm'
+  Column,
+} from 'typeorm';
 
-import { IsEmail } from 'class-validator'
-import { Exclude } from 'class-transformer'
+import { IsEmail } from 'class-validator';
+import { Exclude } from 'class-transformer';
 
 @Entity('users')
 export class Users extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
   @Column()
-  name: string
+  name: string;
 
   @Column({ unique: true })
   @IsEmail()
-  email: string
+  email: string;
 
   @Exclude()
   @Column()
-  password: string
+  password: string;
 
   @Column({ default: true })
-  active: boolean
+  active: boolean;
 
   @Column({ default: 1 })
-  level: number
+  level: number;
 
   @Exclude()
   @CreateDateColumn()
-  created_at: Date
+  created_at: Date;
 
   @Exclude()
   @UpdateDateColumn()
-  updated_at: Date
+  updated_at: Date;
 }

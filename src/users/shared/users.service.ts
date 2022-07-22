@@ -1,11 +1,11 @@
-import * as bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Users } from 'src/users/model/users.model'
+import { Users } from 'src/users/model/users.model';
 import { CreateUserDto, UpdateUserDto } from '../dto';
-import { userAlreadyRegistered } from 'src/expection-filters/error-customs'
+import { userAlreadyRegistered } from 'src/expection-filters/error-customs';
 
 @Injectable()
 export class UsersService {
@@ -32,8 +32,8 @@ export class UsersService {
   }
 
   async create(createUserDTO: CreateUserDto): Promise<Users> {
-    const existUser = await this.findByEmail(createUserDTO.email)
-    if (existUser) userAlreadyRegistered()
+    const existUser = await this.findByEmail(createUserDTO.email);
+    if (existUser) userAlreadyRegistered();
 
     const user = this.repository.create(createUserDTO);
     user.password = await this.convertToHash(user.password);
@@ -47,7 +47,8 @@ export class UsersService {
     });
 
     if (!user) throw new NotFoundException('Usuário não encontrado.');
-    if (updateUserDTO.password) user.password = await this.convertToHash(user.password);
+    if (updateUserDTO.password)
+      user.password = await this.convertToHash(user.password);
     return this.repository.save(user);
   }
 

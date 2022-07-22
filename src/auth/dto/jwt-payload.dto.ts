@@ -1,7 +1,7 @@
 export interface JwtPayloadDTO {
   iat: number;
   sub: string;
-  email: string; 
+  email: string;
   active: boolean;
   level: number;
 }

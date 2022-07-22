@@ -5,8 +5,8 @@ import { ProfileController } from './shared/profile.controller';
 import { UsersService } from 'src/users/shared/users.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Users])],
-    controllers: [ProfileController],
-    providers: [UsersService],
+  imports: [TypeOrmModule.forFeature([Users])],
+  controllers: [ProfileController],
+  providers: [UsersService],
 })
 export class ProfileModule {}

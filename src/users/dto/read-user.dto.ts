@@ -6,7 +6,7 @@ import { Users } from '../model/users.model';
 export class ReadUserDto extends OmitType(Users, [
   'password',
   'created_at',
-  'updated_at'
+  'updated_at',
 ]) {
   @Exclude()
   password?: string;
