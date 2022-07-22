@@ -21,7 +21,7 @@ import { ProfileResponseDto, ReadProfileDto, UpdateProfileDto } from '../dto';
 @Controller('profile')
 @UseInterceptors(ClassSerializerInterceptor)
 export class ProfileController {
-  constructor(private readonly service: UsersService) { }
+  constructor(private readonly service: UsersService) {}
 
   @Get()
   @ApiOkResponse({ type: ProfileResponseDto })

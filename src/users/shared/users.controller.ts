@@ -10,9 +10,12 @@ import {
   Put,
   UseGuards,
   Patch,
+  Query,
+  Res,
 } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { ApiNoContentResponse, ApiOkResponse } from '@nestjs/swagger';
+import { Response } from 'express';
 
 import { UsersService } from './users.service';
 import {
@@ -20,6 +23,7 @@ import {
   ReadUserDto,
   UpdateUserDto,
   UserResponse,
+  QueryParamsUsers,
 } from '../dto';
 import { JwtAuthGuard } from 'src/auth/shared/jwt/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/shared/roles/roles.guard';
@@ -31,7 +35,7 @@ import { Roles } from 'src/auth/shared/roles/roles.decorator';
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
-  constructor(private readonly service: UsersService) {}
+  constructor(private readonly service: UsersService) { }
 
   @Post()
   @ApiOkResponse({ type: UserResponse })
@@ -42,9 +46,21 @@ export class UsersController {
 
   @Get()
   @ApiOkResponse({ type: [UserResponse] })
-  async getAll(): Promise<ReadUserDto[]> {
-    const users = await this.service.findAll();
-    return plainToClass(ReadUserDto, users);
+  async getAll(
+    @Res({ passthrough: true }) res: Response,
+    @Query() queryParams: QueryParamsUsers,
+  ): Promise<ReadUserDto[]> {
+    console.log(queryParams);
+    const { items, meta } = await this.service.findAll(queryParams);
+    console.log(meta);
+
+    res.setHeader('X-Total-Items', meta.totalItems); // Total geral
+    res.setHeader('X-Total-Pages', meta.totalPages); // Total de páginas
+    res.setHeader('X-Items-Count', meta.itemCount); // Total de items por página
+    res.setHeader('X-Current-Page', meta.currentPage); // Em qual página está
+    res.setHeader('X-Items-Per-Page', meta.itemsPerPage); // Quantidade Definida Por Página (limit)
+
+    return plainToClass(ReadUserDto, items);
   }
 
   @Get(':id')

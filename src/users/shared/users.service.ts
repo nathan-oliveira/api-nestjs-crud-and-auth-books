@@ -3,22 +3,31 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import {
+  paginate,
+  Pagination,
+  IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
+
 import { Users } from 'src/users/model/users.model';
-import { CreateUserDto, UpdateUserDto } from '../dto';
+import { CreateUserDto, QueryParamsUsers, UpdateUserDto } from '../dto';
 import { userAlreadyRegistered } from 'src/expection-filters/error-customs';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(Users) private readonly repository: Repository<Users>,
-  ) {}
+  ) { }
 
   convertToHash(password: string): Promise<string> {
     return bcrypt.hash(password, 15);
   }
 
-  async findAll(): Promise<Users[]> {
-    return await this.repository.find();
+  async findAll({ limit, page }: QueryParamsUsers): Promise<Pagination<Users>> {
+    return paginate<Users>(this.repository, {
+      page,
+      limit,
+    });
   }
 
   async findByEmail(email: string): Promise<Users> {
